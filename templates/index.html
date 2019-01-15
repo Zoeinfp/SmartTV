@@ -1,63 +1,103 @@
-{% extends '/layouts/default.html' %}
-{% block body %}
+(% extends '/layouts/default.html' %)
+(% block body %)
+<div id="app">
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="#">Sogetilabs</a>
+        <a class="navbar-brand" href="((url_for('home')))">Sogetilabs</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!--<div class="collapse navbar-collapse" id="navbarResponsive">-->
-        <!--<ul class="navbar-nav ml-auto">-->
-        <!--<li class="nav-item active">-->
-        <!--<a class="nav-link" href="#">Home-->
-        <!--<span class="sr-only">(current)</span>-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li class="nav-item">-->
-        <!--<a class="nav-link" href="#">About</a>-->
-        <!--</li>-->
-        <!--<li class="nav-item">-->
-        <!--<a class="nav-link" href="#">Services</a>-->
-        <!--</li>-->
-        <!--<li class="nav-item">-->
-        <!--<a class="nav-link" href="#">Contact</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                (% if status == 'weather' %)
+                <form method="POST" action="(( url_for('weather') ))"
+                      class="d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <div class="input-group">
+
+                        <input type="text" name="city" class="form-control" placeholder="City Name" aria-label="Search"
+                               aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                (% endif %)
+                <li class="nav-item active">
+                    <a class="nav-link" href="((url_for('home')))">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="((url_for('list_files')))">Slides</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="((url_for('add_files')))">Add</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">...</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
 <header>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div style="position:fixed;top:50%;right:10%;z-index: 9999;">
+    (% for weather in weather_data %)
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <form class="list-inline-item" method="post" action="(( url_for('rm') ))">
+                <input type="hidden" name="deleted_city" value="((weather.name))">
+                <button type="submit"><span>(( weather.name ))</span></button>
+            </form>
+        </li>
+        <li class="list-inline-item">
+            <img src="http://openweathermap.org/img/w/(( weather.icon )).png" alt="Weather Image">
+        </li>
+        <li class="list-inline-item">
+            <span class="temperature">(( weather.temperature ))° C</span>
+        </li>
+        <form class="list-inline-item" method="post" action="(( url_for('update_weather') ))">
+            <button type="submit" name='status'
+                    value='update_weather'>
+                <span>(( weather.description ))</span>
+            </button>
+        </form>
+    </ul>
+
+    (% endfor %)
+    </div>
+    (% if list %)
+    <div style="margin-top:100px" class="container">
+        (% for image in list %)
+        <form class="list-inline-item" method="post" action="((url_for('delete_file')))">
+            <button type="submit" name="image" value="((image))" class="btn btn-link">
+                <img style="width:150px" src="((image))"/>
+            </button>
+        </form>
+        (% endfor %)
+        <p>Cliquez sur une image pour la supprimer</p>
+    </div>
+    (% elif images%)
+    <div id="carouselExampleIndicators" style="margin-top:100px" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            (% for image in images %)
+            <li data-target="#carouselExampleIndicators" data-slide-to="((loop.index))" (% if loop.index== 1 %)
+                class="active" (% endif %)></li>
+            (% endfor %)
         </ol>
-        <div class="carousel-inner" role="listbox">
-            <!-- Slide One - Set the background image for this slide in the line below -->
-            <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>First Slide</h3>
-                    <p>This is a description for the first slide.</p>
-                </div>
+        <div class="carousel-inner">
+            (% for image in images %)
+            <div class="carousel-item (% if loop.index == 1 %) active(% endif %)">
+                <img class="d-block w-100" src="((image))">
             </div>
-            <!-- Slide Two - Set the background image for this slide in the line below -->
-            <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>Second Slide</h3>
-                    <p>This is a description for the second slide.</p>
-                </div>
-            </div>
-            <!-- Slide Three - Set the background image for this slide in the line below -->
-            <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>Third Slide</h3>
-                    <p>This is a description for the third slide.</p>
-                </div>
-            </div>
+            (% endfor %)
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -68,25 +108,31 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    (% else%)
+    (% endif %)
 </header>
 
 <!-- Page Content -->
 <section class="py-5">
     <div class="container">
         <h1>Sogeti Smart TV</h1>
-        <p>{% raw %}{{ description }}{% endraw %}</p>
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <p>{{ description }}</p>
+        (% if status == 'upload' %)
+        <form action="((url_for('upload_file')))" method="post" enctype="multipart/form-data">
               <span class="btn btn-default btn-file">
                  <input type="file" name="image">
               </span>
-
             <input type="submit" value="Upload your image" class="btn btn-primary">
         </form>
-        {% if init %}
+        (% endif %)
+        (% if init %)
         <div class="alert alert-success" style="margin-top:18px;">
             <strong>Success!</strong> Your image was upload successfully
+            <a class="btn btn-default" href="((url_for('home')))">Retour</a>
         </div>
-        {% endif %}
+        (% endif %)
+
     </div>
 </section>
-{% endblock body %}
+</div>
+(% endblock body %)
