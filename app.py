@@ -68,11 +68,27 @@ def home(status=None):
         if not isinstance(image.image_string, str):
             image_src = 'data:image/png;base64,' + image.image_string.decode("utf-8")
             images_list.append(image_src)
+    print(status)
+
+    events = [{'title': 'event1',
+               'start': '2010-01-01'
+               },
+              {
+                  'title': 'event2',
+                  'start': '2010-01-05',
+                  'end': '2010-01-07'
+              },
+              {
+                  'title': 'event3',
+                  'start': '2010-01-09T12:30:00',
+              }
+              ]
 
     return render_template(template_name_or_list='index.html',
                            images=images_list,
                            messages=messages_list,
                            status=status,
+                           events=events,
                            weather_data=WeatherData.query.all())
 
 
@@ -193,6 +209,11 @@ def list_files():
             images_list.append(image_src)
 
     return render_template('index.html', list=images_list)
+
+
+@app.route('/calendar')
+def calendar():
+    return home(status='calendar')
 
 
 @app.route('/delete', methods=['POST'])

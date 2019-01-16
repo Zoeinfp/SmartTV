@@ -50,11 +50,11 @@
 </nav>
 
 <header>
-    <div style="position:fixed;top:10%;right:2%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);border-radius:15%;padding:50px;color:white;">
+    <div style="position:fixed;top:10%;bottom:0%;right:0%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);padding:50px;color:white;width:30%">
     (% for message in messages %)
         <form method="post" action="((url_for('delete_message')))">
             <button type="submit" name="message" value="((message))" class="btn">
-                <p style="font-size:20px;">((message))</p><br>
+                <textarea cols="30" rows="4" style="font-size:35px;">((message))</textarea><br>
             </button>
          </form>
     (% endfor %)

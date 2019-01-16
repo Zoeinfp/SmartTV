@@ -40,8 +40,33 @@
         crossorigin="anonymous"></script>
     <script src="((url_for('static', filename='js/bootstrap.bundle.min.js')))"></script>
     <script src="((url_for('static', filename='js/script.js')))"></script>
-
+    <link href='/static/css/fullcalendar.min.css' rel='stylesheet' />
+    <link href='/static/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--<script src="https://unpkg.com/vuetify/dist/vuetify.js"></script >-->
+    <script>
+       var eventsArray = [];
+      (% if my_events %)
+      (% for event in my_events %)
+      var title = '((event.title))';
+      var start = '((event.start))';
+      var end = '((event.end))';
+      eventsArray.push({ title: title, start: start, end: end });
+      (% endfor %)
+      $('#calendar').fullCalendar({
+              header: {
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: 'month,basicWeek,basicDay'
+              },
+              defaultDate: '2018-03-12',
+              navLinks: true, // can click day/week names to navigate views
+              editable: true,
+              eventLimit: true, // allow "more" link when too many events
+              events: eventsArray
+          });
+    (% endif %)
+    </script>
   </body>
 
 </html>
