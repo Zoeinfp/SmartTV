@@ -50,7 +50,7 @@
 </nav>
 
 <header>
-    <div style="position:fixed;top:30%;right:10%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);border-radius:15%;padding:50px;color:white;">
+    <div style="position:fixed;top:30%;right:8%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);border-radius:15%;padding:50px;color:white;">
     (% for message in messages %)
         <form method="post" action="((url_for('delete_message')))">
             <button type="submit" name="message" value="((message))" class="btn">
