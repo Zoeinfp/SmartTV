@@ -135,16 +135,16 @@
               </span>
             <input type="submit" value="Upload your image" class="btn btn-primary">
         </form>
-        (% elif status == 'uploaded' %)
-        <div class="alert alert-success" style="margin-top:18px;">
-            <strong>Success!</strong> Your image was upload successfully
-            <a class="btn btn-default" href="((url_for('home')))">Retour</a>
-        </div>
         (% elif status == 'insert_text' %)
         <form method="post" action="((url_for('message')))">
             <textarea name="message" class='form-control' placeholder="Entrer votre message"></textarea>
             <input type="submit" value="valider" class="btn">
         </form>
+         (% elif init %)
+        <div class="alert alert-success" style="margin-top:18px;">
+            <strong>Success!</strong> Your image was upload successfully
+            <a class="btn btn-default" href="((url_for('home')))">Retour</a>
+        </div>
         (% endif %)
 
     </div>

@@ -59,7 +59,6 @@ db.session.commit()
 def home(status=None):
     images = ImageData.query.all()
     messages = MessageData.query.all()
-
     messages_list = []
     for m in messages:
         messages_list.append(m.message)
@@ -69,8 +68,6 @@ def home(status=None):
         if not isinstance(image.image_string, str):
             image_src = 'data:image/png;base64,' + image.image_string.decode("utf-8")
             images_list.append(image_src)
-
-    print(status)
 
     return render_template(template_name_or_list='index.html',
                            images=images_list,
@@ -238,7 +235,7 @@ def upload_file():
     # fh.write(str.decode('base64'))
     # fh.close()
 
-    return home('index.html', status='uploaded')
+    return render_template('index.html', init=True)
 
 
 if __name__ == "__main__":
