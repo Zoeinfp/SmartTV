@@ -54,7 +54,7 @@
     (% for message in messages %)
         <form method="post" action="((url_for('delete_message')))">
             <button type="submit" name="message" value="((message))" class="btn">
-                <textarea cols="30" rows="4" style="font-size:35px;">((message))</textarea><br>
+                <textarea cols="25" rows="4" style="font-size:35px;">((message))</textarea><br>
             </button>
          </form>
     (% endfor %)
