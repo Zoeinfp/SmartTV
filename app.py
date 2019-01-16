@@ -46,6 +46,11 @@ class WeatherData(db.Model):
     icon = db.Column(db.String(50), primary_key=False)
 
 
+class MessageData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String(64000), primary_key=False)
+
+
 db.create_all()
 db.session.commit()
 
@@ -53,6 +58,11 @@ db.session.commit()
 @app.route("/")
 def home(status=None):
     images = ImageData.query.all()
+    messages = MessageData.query.all()
+
+    messages_list = []
+    for m in messages:
+        messages_list.append(m.message)
 
     images_list = []
     for image in images:
@@ -60,7 +70,13 @@ def home(status=None):
             image_src = 'data:image/png;base64,' + image.image_string.decode("utf-8")
             images_list.append(image_src)
 
-    return render_template('index.html', images=images_list, status=status, weather_data=WeatherData.query.all())
+    print(status)
+
+    return render_template(template_name_or_list='index.html',
+                           images=images_list,
+                           messages=messages_list,
+                           status=status,
+                           weather_data=WeatherData.query.all())
 
 
 def save_image(image_string):
@@ -86,14 +102,17 @@ def rm():
     WeatherData.query.filter_by(name=deleted_city).delete()
     print("Removing " + deleted_city + " from cities !")
     db.session.commit()
-    return render_template(template_name_or_list='index.html',
-                           timestamp=time.strftime('%d %B %Y %H:%M:%S'),
-                           weather_data=WeatherData.query.all())
+    return home()
 
 
 @app.route('/add/', methods=['GET', 'POST'])
 def add_files():
     return home(status='upload')
+
+
+@app.route('/text/', methods=['GET', 'POST'])
+def add_text():
+    return home(status='insert_text')
 
 
 def create_weather_data(new_city):
@@ -108,6 +127,22 @@ def create_weather_data(new_city):
     print(new_city)
     get_or_create_weather_data(name=name, temperature=temperature, description=description[0], icon=icon[0])
     return name
+
+
+def create_new_message(new_message):
+    get_or_create_message_data(message_to_store=new_message)
+
+
+def get_or_create_message_data(message_to_store):
+    exists = db.session.query(MessageData.id).filter_by(message=message_to_store).scalar() is not None
+
+    if exists:
+        return db.session.query(MessageData).filter_by(message=message_to_store).first()
+    else:
+        new_message_obj = MessageData(message=message_to_store)
+        db.session.add(new_message_obj)
+        db.session.commit()
+        return message
 
 
 def get_or_create_weather_data(name, temperature, description, icon):
@@ -136,9 +171,18 @@ def weather():
             print("Request add for  " + new_city + " !")
             create_weather_data(new_city)
 
-    return render_template(template_name_or_list='index.html',
-                           timestamp=time.strftime('%d %B %Y %H:%M:%S'),
-                           weather_data=WeatherData.query.all())
+    return home()
+
+
+@app.route('/message', methods=['GET', 'POST'])
+def message():
+    if request.method == 'POST':
+        new_message = request.form.get('message')
+
+        if new_message:
+            create_new_message(new_message)
+
+    return home()
 
 
 @app.route('/images')
@@ -167,6 +211,15 @@ def delete_file():
     return home()
 
 
+@app.route('/delete_message', methods=['POST'])
+def delete_message():
+    message_to_delete = request.form.get('message')
+    print(message_to_delete)
+    MessageData.query.filter_by(message=message_to_delete).delete()
+    db.session.commit()
+    return home()
+
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     image = request.files['image']
@@ -185,7 +238,7 @@ def upload_file():
     # fh.write(str.decode('base64'))
     # fh.close()
 
-    return render_template('index.html', init=True)
+    return home('index.html', status='uploaded')
 
 
 if __name__ == "__main__":

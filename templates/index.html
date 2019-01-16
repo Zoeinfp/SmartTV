@@ -36,9 +36,11 @@
                     <a class="nav-link" href="((url_for('list_files')))">Slides</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="((url_for('add_files')))">Add</a>
+                    <a class="nav-link" href="((url_for('add_files')))">+ Image</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="((url_for('add_text')))">+ Annonce</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">...</a>
                 </li>
@@ -48,7 +50,14 @@
 </nav>
 
 <header>
-    <div style="position:fixed;top:50%;right:10%;z-index: 9999;">
+    <div style="position:fixed;top:30%;right:10%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);border-radius:15%;padding:50px;color:white;">
+    (% for message in messages %)
+        <form method="post" action="((url_for('delete_message')))">
+            <button type="submit" name="message" value="((message))" class="btn">
+                <p>((message))<p></p><br>
+            </button>
+         </form>
+    (% endfor %)
     (% for weather in weather_data %)
     <ul class="list-inline">
         <li class="list-inline-item">
@@ -95,7 +104,7 @@
         <div class="carousel-inner">
             (% for image in images %)
             <div class="carousel-item (% if loop.index == 1 %) active(% endif %)">
-                <img class="d-block w-100" src="((image))">
+                <img style="height: 100vh;" src="((image))">
             </div>
             (% endfor %)
         </div>
@@ -109,6 +118,8 @@
         </a>
     </div>
     (% else%)
+    <div style="margin-top:500px" class="container">
+    </div>
     (% endif %)
 </header>
 
@@ -124,12 +135,16 @@
               </span>
             <input type="submit" value="Upload your image" class="btn btn-primary">
         </form>
-        (% endif %)
-        (% if init %)
+        (% elif status == 'uploaded' %)
         <div class="alert alert-success" style="margin-top:18px;">
             <strong>Success!</strong> Your image was upload successfully
             <a class="btn btn-default" href="((url_for('home')))">Retour</a>
         </div>
+        (% elif status == 'insert_text' %)
+        <form method="post" action="((url_for('message')))">
+            <textarea name="message" class='form-control' placeholder="Entrer votre message"></textarea>
+            <input type="submit" value="valider" class="btn">
+        </form>
         (% endif %)
 
     </div>
