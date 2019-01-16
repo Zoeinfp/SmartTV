@@ -13,3 +13,11 @@
   -o-background-size: cover;
   background-size: cover;
 }
+
+.navbar {
+    height:2px;
+}
+
+.navbar-dark a {
+    color: black !important;;
+}
