@@ -56,7 +56,7 @@ db.session.commit()
 
 
 @app.route("/")
-def home(status=None):
+def home(status=None, list=None):
     images = ImageData.query.all()
     messages = MessageData.query.all()
     messages_list = []
@@ -88,6 +88,7 @@ def home(status=None):
                            images=images_list,
                            messages=messages_list,
                            status=status,
+                           list=list,
                            my_events=my_events,
                            weather_data=WeatherData.query.all())
 
@@ -116,11 +117,6 @@ def rm():
     print("Removing " + deleted_city + " from cities !")
     db.session.commit()
     return home()
-
-
-@app.route('/add/', methods=['GET', 'POST'])
-def add_files():
-    return home(status='upload')
 
 
 @app.route('/text/', methods=['GET', 'POST'])
@@ -208,7 +204,7 @@ def list_files():
             image_src = 'data:image/png;base64,' + image.image_string.decode("utf-8")
             images_list.append(image_src)
 
-    return render_template('index.html', list=images_list)
+    return home(list=images_list, status='upload')
 
 
 @app.route('/calendar')
