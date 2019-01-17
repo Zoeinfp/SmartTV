@@ -25,12 +25,30 @@
 
             <!--Weather Widget-->
             (% for weather in weather_data %)
+
             (% include 'weather.html' %)
             (% endfor %)
           </div>
         </div>
     </header>
 
-    (% include 'bottom.html' %)
+    <!-- Page Content -->
+<section class="py-5">
+    <div id="bottom" class="container">
+        <h1>Sogeti Smart TV</h1>
+        <p>{{ description }}</p>
+        (% if list %)
+                (% include 'list.html' %)
+        (% endif %)
+        (% if status == 'upload' %)
+            (% include 'upload.html' %)
+        (% elif status == 'insert_text' %)
+            (% include 'insertText.html' %)
+         (% elif init %)
+            (% include 'uploaded.html' %)
+        (% endif %)
+
+    </div>
+</section>
 </div>
 (% endblock body %)
