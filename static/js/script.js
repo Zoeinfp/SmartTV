@@ -5,3 +5,7 @@ var app = new Vue({
         }
     })
 
+$(document).on("click", ".messageModal", function () {
+     $(".modal-body #message").val($(this).data('id'));
+     $(".modal-body #sendmessage").val($(this).data('id'));
+});

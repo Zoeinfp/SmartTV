@@ -70,25 +70,25 @@ def home(status=None):
             images_list.append(image_src)
     print(status)
 
-    events = [{'title': 'event1',
-               'start': '2010-01-01'
-               },
-              {
-                  'title': 'event2',
-                  'start': '2010-01-05',
-                  'end': '2010-01-07'
-              },
-              {
-                  'title': 'event3',
-                  'start': '2010-01-09T12:30:00',
-              }
-              ]
+    my_events = [{'title': 'event1',
+                  'start': '2010-01-01',
+                  },
+                 {
+                     'title': 'event2',
+                     'start': '2010-01-05',
+                     'end': '2010-01-07'
+                 },
+                 {
+                     'title': 'event3',
+                     'start': '2010-01-09T12:30:00',
+                 }
+                 ]
 
     return render_template(template_name_or_list='index.html',
                            images=images_list,
                            messages=messages_list,
                            status=status,
-                           events=events,
+                           my_events=my_events,
                            weather_data=WeatherData.query.all())
 
 

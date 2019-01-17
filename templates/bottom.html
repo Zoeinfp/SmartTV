@@ -1,0 +1,26 @@
+<!-- Page Content -->
+<section class="py-5">
+    <div id="bottom" class="container">
+        <h1>Sogeti Smart TV</h1>
+        <p>{{ description }}</p>
+        (% if status == 'upload' %)
+        <form action="((url_for('upload_file')))" method="post" enctype="multipart/form-data">
+              <span class="btn btn-default btn-file">
+                 <input type="file" name="image">
+              </span>
+            <input type="submit" value="Upload your image" class="btn btn-primary">
+        </form>
+        (% elif status == 'insert_text' %)
+        <form method="post" action="((url_for('message')))">
+            <textarea name="message" class='form-control' placeholder="Entrer votre message"></textarea>
+            <input type="submit" value="valider" class="btn">
+        </form>
+         (% elif init %)
+        <div class="alert alert-success" style="margin-top:18px;">
+            <strong>Success!</strong> Your image was upload successfully
+            <a class="btn btn-default" href="((url_for('home')))">Retour</a>
+        </div>
+        (% endif %)
+
+    </div>
+</section>

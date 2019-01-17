@@ -1,0 +1,20 @@
+<ul class="list-inline">
+    <li class="list-inline-item">
+        <form class="list-inline-item" method="post" action="(( url_for('rm') ))">
+            <input type="hidden" name="deleted_city" value="((weather.name))">
+            <button class="btn btn-light" type="submit"><span>(( weather.name ))</span></button>
+        </form>
+    </li>
+    <li class="list-inline-item">
+        <img src="http://openweathermap.org/img/w/(( weather.icon )).png" alt="Weather Image">
+    </li>
+    <li class="list-inline-item">
+        <span class="temperature">(( weather.temperature ))° C</span>
+    </li>
+    <form class="list-inline-item" method="post" action="(( url_for('update_weather') ))">
+        <button class="btn btn-light" type="submit" name='status'
+                value='update_weather'>
+            <span>(( weather.description ))</span>
+        </button>
+    </form>
+</ul>

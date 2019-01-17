@@ -1,153 +1,37 @@
 (% extends '/layouts/default.html' %)
 (% block body %)
 <div id="app">
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container mynav">
-        <a class="navbar-brand" href="((url_for('home')))">Sogetilabs</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                (% if status == 'weather' %)
-                <form method="POST" action="(( url_for('weather') ))"
-                      class="d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                    <div class="input-group">
+    (% include 'navigation.html' %)
+    (% include 'messageModal.html' %)
 
-                        <input type="text" name="city" class="form-control" placeholder="City Name" aria-label="Search"
-                               aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+    <header>
+        <div class="row">
+          <div class="col-sm-8">
+                (% if list %)
+                (% include 'list.html' %)
+                (% elif status == 'calendar' %)
+                (% include 'calendar.html' %)
+                (% elif images%)
+                (% include 'carousel.html' %)
                 (% endif %)
-                <li class="nav-item active">
-                    <a class="nav-link" href="((url_for('home')))">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="((url_for('list_files')))">Slides</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="((url_for('add_files')))">+ Image</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="((url_for('add_text')))">+ Annonce</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">...</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<header>
-    <div style="position:fixed;top:10%;bottom:0%;right:0%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);padding:50px;color:white;width:30%">
-    (% for message in messages %)
-        <form method="post" action="((url_for('delete_message')))">
-            <button type="submit" name="message" value="((message))" class="btn">
-                <textarea cols="25" rows="4" style="font-size:35px;margin-right:10%">((message))</textarea><br>
-            </button>
-         </form>
-    (% endfor %)
-    (% for weather in weather_data %)
-    <ul class="list-inline">
-        <li class="list-inline-item">
-            <form class="list-inline-item" method="post" action="(( url_for('rm') ))">
-                <input type="hidden" name="deleted_city" value="((weather.name))">
-                <button type="submit"><span>(( weather.name ))</span></button>
-            </form>
-        </li>
-        <li class="list-inline-item">
-            <img src="http://openweathermap.org/img/w/(( weather.icon )).png" alt="Weather Image">
-        </li>
-        <li class="list-inline-item">
-            <span class="temperature">(( weather.temperature ))° C</span>
-        </li>
-        <form class="list-inline-item" method="post" action="(( url_for('update_weather') ))">
-            <button type="submit" name='status'
-                    value='update_weather'>
-                <span>(( weather.description ))</span>
-            </button>
-        </form>
-    </ul>
-
-    (% endfor %)
-    </div>
-    (% if list %)
-    <div style="margin-top:100px" class="container">
-        (% for image in list %)
-        <form class="list-inline-item" method="post" action="((url_for('delete_file')))">
-            <button type="submit" name="image" value="((image))" class="btn btn-link">
-                <img style="width:150px" src="((image))"/>
-            </button>
-        </form>
-        (% endfor %)
-        <p>Cliquez sur une image pour la supprimer</p>
-    </div>
-    (% elif images%)
-    <div id="carouselExampleIndicators" style="margin-top:100px" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            (% for image in images %)
-            <li data-target="#carouselExampleIndicators" data-slide-to="((loop.index))" (% if loop.index== 1 %)
-                class="active" (% endif %)></li>
-            (% endfor %)
-        </ol>
-        <div class="carousel-inner">
-            (% for image in images %)
-            <div class="carousel-item (% if loop.index == 1 %) active(% endif %)">
-                <img style="height: 60vh;margin:10% 25% 0% 10%;" src="((image))">
             </div>
+        <!--<div style="position:fixed;top:10%;bottom:0%;right:0%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);padding:50px;color:white;width:30%">-->
+
+          <div class="col-sm-4">
+               <!--Message Widget-->
+            (% for message in messages %)
+            (% include 'message.html' %)
             (% endfor %)
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-    (% else%)
-    <div style="margin-top:500px" class="container">
-    </div>
-    (% endif %)
-</header>
 
-<!-- Page Content -->
-<section class="py-5">
-    <div class="container">
-        <h1>Sogeti Smart TV</h1>
-        <p>{{ description }}</p>
-        (% if status == 'upload' %)
-        <form action="((url_for('upload_file')))" method="post" enctype="multipart/form-data">
-              <span class="btn btn-default btn-file">
-                 <input type="file" name="image">
-              </span>
-            <input type="submit" value="Upload your image" class="btn btn-primary">
-        </form>
-        (% elif status == 'insert_text' %)
-        <form method="post" action="((url_for('message')))">
-            <textarea name="message" class='form-control' placeholder="Entrer votre message"></textarea>
-            <input type="submit" value="valider" class="btn">
-        </form>
-         (% elif init %)
-        <div class="alert alert-success" style="margin-top:18px;">
-            <strong>Success!</strong> Your image was upload successfully
-            <a class="btn btn-default" href="((url_for('home')))">Retour</a>
+            <!--Weather Widget-->
+            (% for weather in weather_data %)
+            (% include 'weather.html' %)
+            (% endfor %)
+          </div>
         </div>
-        (% endif %)
+    </header>
 
-    </div>
-</section>
+    (% include 'bottom.html' %)
 </div>
 (% endblock body %)

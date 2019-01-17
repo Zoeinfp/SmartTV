@@ -1,0 +1,47 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container mynav">
+        <a class="navbar-brand" href="((url_for('home')))">Sogetilabs</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                (% if status == 'weather' %)
+                <form method="POST" action="(( url_for('weather') ))"
+                      class="d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <div class="input-group">
+
+                        <input type="text" name="city" class="form-control" placeholder="City Name" aria-label="Search"
+                               aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                (% endif %)
+                <li class="nav-item active">
+                    <a class="nav-link" href="((url_for('home')))">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="((url_for('list_files')))">Slides</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="((url_for('add_files')))">+ Image</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="((url_for('add_text')))">+ Annonce</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">...</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
