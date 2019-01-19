@@ -1,1 +1,9 @@
-<div id="calendar" style="margin-top:150px" class="container"></div>
+(% if my_events %)
+<div id="calendar" style="margin:10% 0% 0% 10%;padding:10%;" class="container"></div>
+<input type="hidden" name="event_description" id="event_description" value="">
+(% else %)
+<div style="margin:10% 0% 0% 10%">
+    <h2>Calendrier</h2>
+    <p>Il n'y a pas d'évenements dans le calendrier.</p>
+</div>
+(% endif %)

@@ -1,0 +1,19 @@
+<h3>Messages</h3>
+<ul>
+(% for message in messages %)
+    <li><button class="saved_message btn btn-light">((message))</button></li>
+(% endfor %)
+</ul>
+<div id="add-msg">
+<form method="post" action="((url_for('message')))">
+    <textarea name="message" class='form-control' id="added_message" placeholder="Entrer votre message"></textarea><br>
+    <input type="submit" value="ajouter" class="btn btn-light">
+</form>
+</div>
+<div id="update-msg" style="display:none;">
+    <textarea name="message" class='form-control' id="inserted_message" placeholder="Entrer votre message"></textarea><br>
+    <input type="hidden" id="store-msg" value="">
+    <button class="btn btn-light add-msg">ajouter un message</button>
+    <button class="btn btn-light update-msg">modifier le message </button>
+    <button class="btn btn-light delete-msg">supprimer le message</button>
+</div>

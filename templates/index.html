@@ -4,6 +4,7 @@
 
     (% include 'navigation.html' %)
     (% include 'messageModal.html' %)
+    (% include 'eventModal.html' %)
 
     <header>
         <div class="row">
@@ -22,7 +23,11 @@
             (% for message in messages %)
             (% include 'message.html' %)
             (% endfor %)
-
+            (% for event in my_events %)
+              (% if event.end == now_fullcalendar %)
+              <p>Aujourd'hui dans le calendrier : ((event.title))</p>
+              (% endif %)
+            (% endfor %)
             <!--Weather Widget-->
             (% for weather in weather_data %)
 
@@ -36,15 +41,15 @@
 <section class="py-5">
     <div id="bottom" class="container">
         <h1>Sogeti Smart TV</h1>
+        <input type="hidden" id="stored-data" name="stored-data" value="">
         <p>{{ description }}</p>
-        (% if list %)
-                (% include 'list.html' %)
-        (% endif %)
-        (% if status == 'upload' %)
-            (% include 'upload.html' %)
-        (% elif status == 'insert_text' %)
-            (% include 'insertText.html' %)
-         (% elif init %)
+        (% if status == 'list_images' %)
+            (% include 'images.html' %)
+        (% elif status == 'messages' %)
+            (% include 'messages.html' %)
+        (% elif status == 'calendar' %)
+            (% include 'events.html' %)
+        (% elif init %)
             (% include 'uploaded.html' %)
         (% endif %)
 

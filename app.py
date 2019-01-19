@@ -46,6 +46,14 @@ class WeatherData(db.Model):
     icon = db.Column(db.String(50), primary_key=False)
 
 
+class EventData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), primary_key=False)
+    description = db.Column(db.String(256), primary_key=False)
+    start = db.Column(db.String(50), primary_key=False)
+    end = db.Column(db.String(50), primary_key=False)
+
+
 class MessageData(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     message = db.Column(db.String(64000), primary_key=False)
@@ -56,7 +64,9 @@ db.session.commit()
 
 
 @app.route("/")
-def home(status=None, list=None):
+def home(status=None):
+    timestamp = time.strftime('%d %B %Y %H:%M:%S')
+    timestamp_fullcalendar = time.strftime('%F')
     images = ImageData.query.all()
     messages = MessageData.query.all()
     messages_list = []
@@ -68,28 +78,29 @@ def home(status=None, list=None):
         if not isinstance(image.image_string, str):
             image_src = 'data:image/png;base64,' + image.image_string.decode("utf-8")
             images_list.append(image_src)
-    print(status)
+    print("Status : ", status)
 
-    my_events = [{'title': 'event1',
-                  'start': '2010-01-01',
-                  },
-                 {
-                     'title': 'event2',
-                     'start': '2010-01-05',
-                     'end': '2010-01-07'
-                 },
-                 {
-                     'title': 'event3',
-                     'start': '2010-01-09T12:30:00',
-                 }
-                 ]
+    # my_events = [{'title': 'event1',
+    #               'start': '2010-01-01',
+    #               },
+    #              {
+    #                  'title': 'event2',
+    #                  'start': '2010-01-05',
+    #                  'end': '2010-01-07'
+    #              },
+    #              {
+    #                  'title': 'event3',
+    #                  'start': '2010-01-09T12:30:00',
+    #              }
+    #              ]
 
     return render_template(template_name_or_list='index.html',
                            images=images_list,
                            messages=messages_list,
                            status=status,
-                           list=list,
-                           my_events=my_events,
+                           now=timestamp,
+                           now_fullcalendar=timestamp_fullcalendar,
+                           my_events=EventData.query.all(),
                            weather_data=WeatherData.query.all())
 
 
@@ -110,6 +121,19 @@ def update_weather():
     return home()
 
 
+@app.route('/update_message', methods=['GET', 'POST'])
+def update_message():
+    old_message = request.args.get('old_message')
+    new_message = request.args.get('new_message')
+
+    MessageData.query.filter_by(message=old_message).delete()
+    db.session.commit()
+
+    create_new_message(new_message)
+
+    return 'Updated'
+
+
 @app.route('/rm', methods=['GET', 'POST'])
 def rm():
     deleted_city = request.form['deleted_city']
@@ -121,7 +145,7 @@ def rm():
 
 @app.route('/text/', methods=['GET', 'POST'])
 def add_text():
-    return home(status='insert_text')
+    return home(status='messages')
 
 
 def create_weather_data(new_city):
@@ -138,6 +162,16 @@ def create_weather_data(new_city):
     return name
 
 
+@app.route('/add_event', methods=['GET', 'POST'])
+def add_event():
+    title = request.form.get('event_title')
+    description = request.form.get('event_description')
+    start = request.form.get('start_date_event')
+    end = request.form.get('end_date_event')
+    get_or_create_event(title=title, description=description, start=start, end=end)
+    return home(status="calendar")
+
+
 def create_new_message(new_message):
     get_or_create_message_data(message_to_store=new_message)
 
@@ -150,6 +184,28 @@ def get_or_create_message_data(message_to_store):
     else:
         new_message_obj = MessageData(message=message_to_store)
         db.session.add(new_message_obj)
+        db.session.commit()
+        return message
+
+
+def get_or_create_event(title, description=None, start=None, end=None):
+    exists = db.session.query(EventData.id).filter_by(title=title).scalar() is not None
+    print('Create a new event')
+    if exists:
+        print("Exist!...")
+        return db.session.query(EventData).filter_by(title=title).first()
+    else:
+        if title and description and start and end:
+            print("....Weird")
+            new_event_obj = EventData(title=title, description=description, start=start, end=end)
+        elif title and start and end:
+            print('Creating...')
+            new_event_obj = EventData(title=title, start=start, end=end)
+        else:
+            print('Does not work...')
+            new_event_obj = EventData(title=title, start=start)
+
+        db.session.add(new_event_obj)
         db.session.commit()
         return message
 
@@ -196,15 +252,7 @@ def message():
 
 @app.route('/images')
 def list_files():
-    images = ImageData.query.all()
-
-    images_list = []
-    for image in images:
-        if not isinstance(image.image_string, str):
-            image_src = 'data:image/png;base64,' + image.image_string.decode("utf-8")
-            images_list.append(image_src)
-
-    return home(list=images_list, status='upload')
+    return home(status='list_images')
 
 
 @app.route('/calendar')
@@ -225,13 +273,32 @@ def delete_file():
     return home()
 
 
-@app.route('/delete_message', methods=['POST'])
-def delete_message():
-    message_to_delete = request.form.get('message')
-    print(message_to_delete)
-    MessageData.query.filter_by(message=message_to_delete).delete()
+@app.route('/delete_event')
+def delete_event():
+    event_to_delete = request.args.get('delete_event')
+    EventData.query.filter_by(title=event_to_delete).delete()
     db.session.commit()
-    return home()
+    print('event deleted')
+    print(event_to_delete)
+    return 'Deleted'
+
+
+@app.route('/delete_message')
+def delete_message():
+    rm_msg_form = request.form.get('message')
+    rm_msg_arg = request.args.get('old_message')
+
+    if rm_msg_form:
+        MessageData.query.filter_by(message=rm_msg_form).delete()
+
+    if rm_msg_arg:
+        print('Delete message')
+        print('message to delete', rm_msg_arg, 'end')
+        MessageData.query.filter_by(message=rm_msg_arg).delete()
+
+    db.session.commit()
+    print('Deleted')
+    return 'Delete'
 
 
 @app.route('/upload', methods=['POST'])

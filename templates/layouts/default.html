@@ -33,6 +33,7 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript">$SCRIPT_ROOT = (( request.script_root|tojson|safe ));</script>
     <script src='/static/js/jquery.min.js'></script>
     <script src='/static/js/bootstrap.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -58,9 +59,29 @@
                   center: 'title',
                   right: 'month,basicWeek,basicDay'
               },
-              defaultDate: '2018-03-12',
+              defaultDate: '((now))',
               navLinks: true, // can click day/week names to navigate views
               editable: true,
+              eventClick: function(calEvent, jsEvent, view) {
+                 var delete_event = calEvent.title;
+                 if (confirm("Voulez-vous supprimer cet èvenement : "+delete_event+" ?")) {
+                    $.getJSON($SCRIPT_ROOT + '/delete_event', {delete_event:delete_event},
+                          function (feedback)
+                          {
+                              if (feedback == 'Deleted')
+                              {
+                                 console.log('ok');
+                              }
+                              else
+                              {
+                                  console.log('ko');
+                              }
+                          });
+                    location.reload();
+                } else {
+                    // Do nothing!
+                }
+              },
               eventLimit: true, // allow "more" link when too many events
               events: eventsArray
           });

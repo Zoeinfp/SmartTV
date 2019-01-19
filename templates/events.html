@@ -1,0 +1,13 @@
+<h3>Dates du calendrier</h3>
+(% if events %)
+    (% for event in events %)
+        ((event))
+    (% endfor %)
+(% endif %)
+<form method="post" action="((url_for('add_event')))">
+    <input type="text" name="event_title" placeholder="Titre" required>
+    <input type="text" name="event_description" placeholder="Description">
+    <input type="date" max="2025-01-01" min="2019-01-01" name="start_date_event" placeholder="Début" required>
+    <input type="date" max="2025-01-01" min="2011-08-13" name="end_date_event" placeholder="Fin">
+    <input type="submit" class="btn btn-light" value="Enregistrer">
+</form>
