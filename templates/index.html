@@ -10,9 +10,9 @@
         <div class="row">
           <div class="col-sm-8">
                 (% if status == 'calendar' %)
-                (% include 'calendar.html' %)
+                    (% include 'calendar.html' %)
                 (% elif images%)
-                (% include 'carousel.html' %)
+                    (% include 'carousel.html' %)
                 (% endif %)
             </div>
         <!--<div style="position:fixed;top:10%;bottom:0%;right:0%;z-index:9999;background-color: rgba(0, 0, 0, 0.7);padding:50px;color:white;width:30%">-->
@@ -20,18 +20,19 @@
           <div class="col-sm-4">
               <div style="margin-top:20%;"></div>
                <!--Message Widget-->
-            (% for message in messages %)
-            (% include 'message.html' %)
-            (% endfor %)
-            (% for event in my_events %)
-              (% if event.end == now_fullcalendar %)
-              <p>Aujourd'hui dans le calendrier : ((event.title))</p>
-              (% endif %)
-            (% endfor %)
-            <!--Weather Widget-->
-            (% for weather in weather_data %)
 
-            (% include 'weather.html' %)
+            (% for message in messages %)
+              (% include 'message.html' %)
+            (% endfor %)
+
+            (% if horoscope %)
+              (% include 'horoscope.html' %)
+            (% endif %)
+
+            (% include 'dailyEvent.html' %)
+
+            (% for weather in weather_data %)
+                (% include 'weather.html' %)
             (% endfor %)
           </div>
         </div>

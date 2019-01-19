@@ -1,12 +1,16 @@
 import base64
+import json
 import os
+import random
 import time
 from io import BytesIO
 from PIL import Image
-
+from google.cloud import translate
 from flask import Flask, render_template, request, jsonify, url_for
 from flask_sqlalchemy import SQLAlchemy
 import requests
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "LandingCuteProject-32d0ea6a0b8e.json"
 
 
 class VueFlask(Flask):
@@ -63,6 +67,40 @@ db.create_all()
 db.session.commit()
 
 
+def zodiac():
+    signs = ['capricorn',
+             'aquarius',
+             'pisces',
+             'aries',
+             'taurus',
+             'gemini',
+             'cancer',
+             'leo',
+             'virgo',
+             'libra',
+             'scorpio',
+             'sagittarius']
+
+    sign = random.choice(signs)
+    day = ('day', 'today')
+    response = requests.post('https://aztro.sameerkumar.website/', params=(('sign', sign), day))
+    text = json.loads(response.text)
+    mood = text['mood']
+    lucky_time = text['lucky_time']
+    description = text['description']
+
+    client = translate.Client()
+    mood_fr = client.translate(mood, target_language='fr')
+    lucky_time_fr = client.translate(lucky_time, target_language='fr')
+    description_fr = client.translate(description, target_language='fr')
+    sign_fr = client.translate(sign, target_language='fr')
+
+    return [sign, sign_fr['translatedText'],
+            mood, mood_fr['translatedText'],
+            lucky_time, lucky_time_fr['translatedText'],
+            description, description_fr['translatedText']]
+
+
 @app.route("/")
 def home(status=None):
     timestamp = time.strftime('%d %B %Y %H:%M:%S')
@@ -99,6 +137,7 @@ def home(status=None):
                            messages=messages_list,
                            status=status,
                            now=timestamp,
+                           horoscope=zodiac(),
                            now_fullcalendar=timestamp_fullcalendar,
                            my_events=EventData.query.all(),
                            weather_data=WeatherData.query.all())
