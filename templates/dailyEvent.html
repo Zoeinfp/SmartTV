@@ -1,6 +1,8 @@
 (% for event in my_events %)
-(% if loop.index == 1 %)<h3>Agenda</h3>(% endif %)
 (% if event.end == now_fullcalendar %)
-<li>((event.title))<small> ((event.description))</small></li>
+<li>
+    ((event.title)) :
+    <small>(% if event.description %)( ((event.description)) ) (% else %)( événement )(% endif %)</small>
+</li>
 (% endif %)
 (% endfor %)
