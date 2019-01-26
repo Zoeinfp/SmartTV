@@ -1,4 +1,4 @@
-## SOGETV:
+## SMARTV:
 
 # Communicate in teams on big screens
 
