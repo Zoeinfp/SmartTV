@@ -3,10 +3,9 @@ import json
 import os
 import random
 import time
-from io import BytesIO
-from PIL import Image
 from google.cloud import translate
-from flask import Flask, render_template, request, jsonify, url_for
+from flask import Flask, render_template, request
+
 from flask_sqlalchemy import SQLAlchemy
 import requests
 
