@@ -2,7 +2,7 @@
 
 # Communicate in teams on big screens
 
-![alt text](https://github.com/Zoeinfp/SmartTV/issues/1#issue-403542238)
+![Screenshot](https://user-images.githubusercontent.com/15839150/51800588-9cbec280-2231-11e9-96d7-2da9e0438c2c.PNG)
 
 `` `
 https://github.com/Zoeinfp/SmartTV
