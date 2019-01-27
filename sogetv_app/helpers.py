@@ -4,8 +4,7 @@ import random
 import requests
 from google.cloud import translate
 
-from app import db
-from models import ImageData, MessageData, EventData, WeatherData
+from sogetv_app.models import ImageData, MessageData, EventData, WeatherData, db
 
 
 def create_new_message(new_message):

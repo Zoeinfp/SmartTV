@@ -3,7 +3,7 @@
 import unittest
 
 from app import app
-from helpers import save_image, get_or_create_message_data, get_or_create_event, get_or_create_weather_data, zodiac
+import sogetv_app.helpers
 
 
 class TestFlaskApp(unittest.TestCase):
@@ -22,23 +22,23 @@ class TestFlaskApp(unittest.TestCase):
         self.assertTrue((rv.status_code == 302 or rv.status_code == 200))
 
     def test_save_image(self):
-        result = save_image('image')
+        result = sogetv_app.helpers.save_image('image')
         self.assertEqual(result, True)
 
     def test_get_or_create_message_data(self):
-        result = get_or_create_message_data('Message')
+        result = sogetv_app.helpers.get_or_create_message_data('Message')
         self.assertTrue(result)
 
     def test_get_or_create_event(self):
-        result = get_or_create_event('Event')
+        result = sogetv_app.helpers.get_or_create_event('Event')
         self.assertTrue(result, 'Event')
 
     def test_get_or_create_weather_data(self):
-        result = get_or_create_weather_data(name="Nantes", temperature="10", description="Cloudy", icon="None")
+        result = sogetv_app.helpers.get_or_create_weather_data(name="Nantes", temperature="10", description="Cloudy", icon="None")
         self.assertTrue(result)
 
     def test_zodiac(self):
-        result = zodiac()
+        result = sogetv_app.helpers.zodiac()
         self.assertTrue(result)
 
 
