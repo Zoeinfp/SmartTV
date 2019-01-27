@@ -28,15 +28,20 @@ The app reacts to user interactions! Jinja, inspired by Django, is a driving for
 No Bootstrap theme seemed to meet the needs of the application. So we created a simple interface using a carousel on a Bootstrap grid allowing a responsive interface.
 
 
-The different sections of the page are presented in separate files allowing greater project readability and greater flexibility in iterative additions.
-Flask  ( Python Micro framework used for example for the CRUD Messages logic )   
-Jinja with parenthesis delimeters for Vue.js compatibility   
-Flask-SQLAlchemy ( Database ORM )  
-Bootstrap + JQuery ( Usage of carousel, responsive columns and light class )  
-Google translate API ( Used for Aztro english horoscope translated in title element)  
-Vue.js ( Ready to be used for future releases )  
-Fullcalendar ( Integration of smart calendar ) https://fullcalendar.io/  
-Aztro ( API Horoscope ) https://aztro.sameerkumar.website  
-Base64 ( Images Conversion )  
+The different sections of the page are presented in separate files allowing greater project readability and greater flexibility in iterative additions.<br>
+* Flask  ( Python Micro framework used for example for the CRUD Messages logic )   
+* Jinja with parenthesis delimeters for Vue.js compatibility   
+* Flask-SQLAlchemy ( Database ORM )  
+* Bootstrap + JQuery ( Usage of carousel, responsive columns and light class )  
+* Google translate API ( Used for Aztro english horoscope translated in title element)  
+* Vue.js ( Ready to be used for future releases )  
+* Fullcalendar ( Integration of smart calendar ) https://fullcalendar.io/  
+* Aztro ( API Horoscope ) https://aztro.sameerkumar.website  
+* Base64 ( Images Conversion )  
 
 
+
+You can either : <br>
+* Deploy the application locally by using the "python app.py" instruction<br>
+* Deploy the site to Heroku using a procfile file and a file that must be specified when it is necessary for the application to work.<br> (Https://medium.com/the-andela-way/deploying-a-python-flask-app-to-heroku-41250bda27d0)<br>
+* You can also containerize the application with the following Docker file<br> (http://containertutorials.com/docker-compose/flask-simple-app.html)<br>
