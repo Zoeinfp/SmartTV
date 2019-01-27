@@ -2,6 +2,8 @@
 
 # Communicate in teams on big screens
 
+![alt text](https://github.com/Zoeinfp/SmartTV/issues/1#issue-403542238)
+
 `` `
 https://github.com/Zoeinfp/SmartTV
 `` `
