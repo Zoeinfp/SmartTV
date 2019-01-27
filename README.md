@@ -11,9 +11,7 @@ https://github.com/Zoeinfp/SmartTV
 
 #### Application :
 
-#### Served by Flask, coded with Python and
-
-#### JavaScript, presented by a Bootstrap template 
+#### Served by Flask, coded with Python and JavaScript, presented by a Bootstrap template 
 
 ## CRUD messages and Dynamic Bootstrap carousel 
 
