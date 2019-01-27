@@ -29,6 +29,8 @@ No Bootstrap theme seemed to meet the needs of the application. So we created a 
 
 
 The different sections of the page are presented in separate files allowing greater project readability and greater flexibility in iterative additions.<br>
+
+This app is made using<br>
 * Flask  ( Python Micro framework used for example for the CRUD Messages logic )   
 * Jinja with parenthesis delimeters for Vue.js compatibility   
 * Flask-SQLAlchemy ( Database ORM )  
@@ -43,5 +45,5 @@ The different sections of the page are presented in separate files allowing grea
 
 You can either : <br>
 * Deploy the application locally by using the "python app.py" instruction<br>
-* Deploy the site to Heroku using a procfile file and a file that must be specified when it is necessary for the application to work.<br> (Https://medium.com/the-andela-way/deploying-a-python-flask-app-to-heroku-41250bda27d0)<br>
-* You can also containerize the application with the following Docker file<br> (http://containertutorials.com/docker-compose/flask-simple-app.html)<br>
+* Deploy the site to Heroku. ( Using the Procfile and the requirements files)<br> (Https://medium.com/the-andela-way/deploying-a-python-flask-app-to-heroku-41250bda27d0)<br>
+* You can also use the Dockerfile to containerize the application<br> (http://containertutorials.com/docker-compose/flask-simple-app.html)<br>
