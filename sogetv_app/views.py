@@ -1,8 +1,8 @@
-import os
 import base64
+import os
 import time
 
-from flask import Flask, request, render_template, jsonify, url_for
+from flask import Flask, request, render_template, jsonify, url_for, session
 from werkzeug.utils import redirect
 import sogetv_app.models
 import sogetv_app.helpers
@@ -27,6 +27,7 @@ db.create_all()
 db.session.commit()
 
 
+@app.route("/home")
 @app.route("/")
 def home():
     """
@@ -52,15 +53,25 @@ def home():
 
     print("Status : ", status)
 
-    return render_template(template_name_or_list='index.html',
-                           images=images_list,
-                           messages=messages_list,
-                           status=status,
-                           now=timestamp,
-                           horoscope=sogetv_app.helpers.zodiac(),
-                           now_fullcalendar=timestamp_fullcalendar,
-                           my_events=sogetv_app.models.EventData.query.all(),
-                           weather_data=sogetv_app.models.WeatherData.query.all())
+    if 'password' in session and session['password'] == os.environ.get('password'):
+        return render_template(template_name_or_list='index.html',
+                               images=images_list,
+                               messages=messages_list,
+                               status=status,
+                               now=timestamp,
+                               horoscope=sogetv_app.helpers.zodiac(),
+                               now_fullcalendar=timestamp_fullcalendar,
+                               my_events=sogetv_app.models.EventData.query.all(),
+                               weather_data=sogetv_app.models.WeatherData.query.all())
+    else:
+        return render_template(template_name_or_list='login.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    print(os.environ.get('password'))
+    session['password'] = request.args.get('password')
+    return redirect(url_for('home'))
 
 
 @app.route('/text/')
@@ -256,4 +267,3 @@ def delete_file():
                 sogetv_app.models.ImageData.query.filter_by(image_string=image.image_string).delete()
                 sogetv_app.models.db.session.commit()
     return redirect('home')
-
