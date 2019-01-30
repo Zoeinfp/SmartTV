@@ -7,6 +7,8 @@ from werkzeug.utils import redirect
 import sogetv_app.models
 import sogetv_app.helpers
 
+PASSWORD = ";4?DcUu$JKf?E7$y"
+
 
 class VueFlask(Flask):
     jinja_options = Flask.jinja_options.copy()
@@ -53,7 +55,7 @@ def home():
 
     print("Status : ", status)
 
-    if 'password' in session and session['password'] == os.environ.get('password'):
+    if 'password' in session and session['password'] == PASSWORD:
         return render_template(template_name_or_list='index.html',
                                images=images_list,
                                messages=messages_list,
