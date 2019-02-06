@@ -75,3 +75,25 @@ function delete_message()
     location.reload();
 
 }
+
+function startRefresh() {
+    $.get('', function(data) {
+        $(document.body).html(data);
+    });
+}
+$(function() {
+    setTimeout(startRefresh,11000);
+});
+
+
+$(function() {
+    $("#carousel").carousel();
+});
+
+$('#myCarousel').on('slid.bs.carousel', function () {
+var currentSlide = $('#myCarousel div.active').index();
+sessionStorage.setItem('lastSlide', currentSlide);
+});
+if(sessionStorage.lastSlide){
+  $("#myCarousel").carousel(sessionStorage.lastSlide*1);
+}
