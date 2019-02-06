@@ -1,5 +1,6 @@
 import base64
 import os
+import random
 import time
 
 from flask import Flask, request, render_template, jsonify, url_for, session
@@ -43,9 +44,19 @@ def home():
     images = sogetv_app.models.ImageData.query.all()
     messages = sogetv_app.models.MessageData.query.all()
     messages_list = []
+    quote_list = []
+    text_list = []
 
     for m in messages:
-        messages_list.append(m.message)
+        text_list.append(m.message)
+        if ':' in m.message:
+            quote_list.append(m.message)
+        else:
+            messages_list.append(m.message)
+
+    quote = None
+    if quote_list:
+        quote = random.choice(quote_list)
 
     images_list = []
     for image in images:
@@ -59,9 +70,11 @@ def home():
         return render_template(template_name_or_list='index.html',
                                images=images_list,
                                messages=messages_list,
+                               text=text_list,
                                status=status,
                                now=timestamp,
                                horoscope=sogetv_app.helpers.zodiac(),
+                               quote=quote,
                                now_fullcalendar=timestamp_fullcalendar,
                                my_events=sogetv_app.models.EventData.query.all(),
                                weather_data=sogetv_app.models.WeatherData.query.all())
@@ -69,7 +82,7 @@ def home():
         return render_template(template_name_or_list='login.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
     print(os.environ.get('password'))
     session['password'] = request.args.get('password')
@@ -94,7 +107,7 @@ def add_weather():
     return redirect(url_for('home', status='weather'))
 
 
-@app.route('/message', methods=['POST'])
+@app.route('/message')
 def message():
     """
     Create message
@@ -109,7 +122,7 @@ def message():
     return redirect(url_for('home'))
 
 
-@app.route('/update_message', methods=['POST'])
+@app.route('/update_message')
 def update_message():
     """
     Update message
@@ -144,7 +157,7 @@ def weather():
     return redirect(url_for('home'))
 
 
-@app.route('/update_weather', methods=['POST'])
+@app.route('/update_weather')
 def update_weather():
     """
     Update Weather
@@ -159,7 +172,7 @@ def update_weather():
     return redirect(url_for('home'))
 
 
-@app.route('/remove_city', methods=['POST'])
+@app.route('/remove_city')
 def remove_city():
     """
     Remove city
@@ -190,7 +203,7 @@ def calendar():
     return redirect(url_for('home', status='calendar'))
 
 
-@app.route('/add_event', methods=['POST'])
+@app.route('/add_event')
 def add_event():
     """
     Create event and add calendar status
@@ -205,7 +218,7 @@ def add_event():
     return redirect(url_for('home', status="calendar"))
 
 
-@app.route('/delete_event', methods=['POST'])
+@app.route('/delete_event')
 def delete_event():
     """
     Delete event
@@ -219,7 +232,7 @@ def delete_event():
     return jsonify('Deleted')
 
 
-@app.route('/delete_message', methods=['POST'])
+@app.route('/delete_message')
 def delete_message():
     """
     Delete message
@@ -240,7 +253,7 @@ def delete_message():
     return jsonify('Deleted')
 
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload')
 def upload_file():
     """
     Upload image file
@@ -254,7 +267,7 @@ def upload_file():
     return render_template('index.html', init=True)
 
 
-@app.route('/delete', methods=['POST'])
+@app.route('/delete')
 def delete_file():
     """
     Delete image file

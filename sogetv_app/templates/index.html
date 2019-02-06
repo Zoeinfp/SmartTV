@@ -31,9 +31,14 @@
 
             (% include 'dailyEvent.html' %)
 
-            (% for weather in weather_data %)
-                (% include 'weather.html' %)
-            (% endfor %)
+            (% if quote %)
+              (% include 'quote.html' %)
+            (% endif %)
+
+            <!--(% for weather in weather_data %)-->
+                <!--(% include 'weather.html' %)-->
+            <!--(% endfor %)-->
+
           </div>
         </div>
     </header>

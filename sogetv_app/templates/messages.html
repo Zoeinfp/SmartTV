@@ -1,8 +1,10 @@
 <h3>Messages</h3>
 <ul>
-(% for message in messages %)
+
+(% for message in text %)
     <li><button class="saved_message btn btn-light">((message))</button></li>
 (% endfor %)
+
 </ul>
 <div id="add-msg">
 <form method="post" action="((url_for('message')))">
