@@ -30,8 +30,8 @@ db.create_all()
 db.session.commit()
 
 
-@app.route("/home")
-@app.route("/")
+@app.route("/home", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def home():
     """
     Home
@@ -82,14 +82,14 @@ def home():
         return render_template(template_name_or_list='login.html')
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     print(os.environ.get('password'))
     session['password'] = request.args.get('password')
     return redirect(url_for('home'))
 
 
-@app.route('/text/')
+@app.route('/text/', methods=['GET', 'POST'])
 def add_text():
     """
     Request home with messages status
@@ -98,7 +98,7 @@ def add_text():
     return redirect(url_for('home', status='messages'))
 
 
-@app.route('/add_weather')
+@app.route('/add_weather', methods=['GET', 'POST'])
 def add_weather():
     """
     Add weather status
@@ -107,7 +107,7 @@ def add_weather():
     return redirect(url_for('home', status='weather'))
 
 
-@app.route('/message')
+@app.route('/message', methods=['GET', 'POST'])
 def message():
     """
     Create message
@@ -122,7 +122,7 @@ def message():
     return redirect(url_for('home'))
 
 
-@app.route('/update_message')
+@app.route('/update_message', methods=['GET', 'POST'])
 def update_message():
     """
     Update message
@@ -140,7 +140,7 @@ def update_message():
     return jsonify('Updated')
 
 
-@app.route('/weather')
+@app.route('/weather', methods=['GET', 'POST'])
 def weather():
     """
     Create weather data
@@ -157,7 +157,7 @@ def weather():
     return redirect(url_for('home'))
 
 
-@app.route('/update_weather')
+@app.route('/update_weather', methods=['GET', 'POST'])
 def update_weather():
     """
     Update Weather
@@ -172,7 +172,7 @@ def update_weather():
     return redirect(url_for('home'))
 
 
-@app.route('/remove_city')
+@app.route('/remove_city', methods=['GET', 'POST'])
 def remove_city():
     """
     Remove city
@@ -185,7 +185,7 @@ def remove_city():
     return redirect(url_for('home'))
 
 
-@app.route('/images')
+@app.route('/images', methods=['GET', 'POST'])
 def list_files():
     """
     List images files
@@ -194,7 +194,7 @@ def list_files():
     return redirect(url_for('home', status='list_images'))
 
 
-@app.route('/calendar')
+@app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
     """
     Add calendar status
@@ -203,7 +203,7 @@ def calendar():
     return redirect(url_for('home', status='calendar'))
 
 
-@app.route('/add_event')
+@app.route('/add_event', methods=['GET', 'POST'])
 def add_event():
     """
     Create event and add calendar status
@@ -218,7 +218,7 @@ def add_event():
     return redirect(url_for('home', status="calendar"))
 
 
-@app.route('/delete_event')
+@app.route('/delete_event', methods=['GET', 'POST'])
 def delete_event():
     """
     Delete event
@@ -232,7 +232,7 @@ def delete_event():
     return jsonify('Deleted')
 
 
-@app.route('/delete_message')
+@app.route('/delete_message', methods=['GET', 'POST'])
 def delete_message():
     """
     Delete message
@@ -253,7 +253,7 @@ def delete_message():
     return jsonify('Deleted')
 
 
-@app.route('/upload')
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
     """
     Upload image file
@@ -267,7 +267,7 @@ def upload_file():
     return render_template('index.html', init=True)
 
 
-@app.route('/delete')
+@app.route('/delete', methods=['GET', 'POST'])
 def delete_file():
     """
     Delete image file
