@@ -66,6 +66,13 @@ def home():
 
     print("Status : ", status)
 
+    my_events = sogetv_app.models.EventData.query.all()
+
+    today_events = []
+    for event in my_events:
+        if event.end == timestamp_fullcalendar:
+            today_events.append(event)
+
     if 'password' in session and session['password'] == PASSWORD:
         return render_template(template_name_or_list='index.html',
                                images=images_list,
@@ -75,8 +82,8 @@ def home():
                                now=timestamp,
                                horoscope=sogetv_app.helpers.zodiac(),
                                quote=quote,
-                               now_fullcalendar=timestamp_fullcalendar,
-                               my_events=sogetv_app.models.EventData.query.all(),
+                               my_events=my_events,
+                               today_events=today_events,
                                weather_data=sogetv_app.models.WeatherData.query.all())
     else:
         return render_template(template_name_or_list='login.html')

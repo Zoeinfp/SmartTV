@@ -4,6 +4,7 @@ import random
 import requests
 from google.cloud import translate
 
+from sogetv_app import models
 from sogetv_app.models import ImageData, MessageData, EventData, WeatherData, db
 
 

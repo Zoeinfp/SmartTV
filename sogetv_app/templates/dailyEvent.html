@@ -1,10 +1,12 @@
-<h3>Ce qu'il se passe aujourd'hui</h3>
-(% for event in my_events %)
-(% if event.end == now_fullcalendar %)
-<li>
-    ((event.title)) :
-    <small>(% if event.description %)( ((event.description)) ) (% else %)( événement )(% endif %)</small>
-</li>
+<h3>Aujourd'hui</h3>
+(% if today_events %)
+    (% for event in today_events %)
+    <li>
+        ((event.title)) :
+        <small>(% if event.description %)( ((event.description)) ) (% else %)( événement )(% endif %)</small>
+    </li>
+    (% endfor %)
+(% else %)
+    <small>Il n'y a rien dans le calendrier...</small><br>
 (% endif %)
-(% endfor %)
 <br>
