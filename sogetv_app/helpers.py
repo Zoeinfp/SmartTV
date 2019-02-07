@@ -4,7 +4,6 @@ import random
 import requests
 from google.cloud import translate
 
-from sogetv_app import models
 from sogetv_app.models import ImageData, MessageData, EventData, WeatherData, db
 
 
@@ -141,10 +140,10 @@ def zodiac():
     description = text['description']
 
     client = translate.Client()
-    mood_fr = client.translate(mood, target_language='fr')
-    lucky_time_fr = client.translate(lucky_time, target_language='fr')
-    description_fr = client.translate(description, target_language='fr')
-    sign_fr = client.translate(sign, target_language='fr')
+    mood_fr = client.translate(mood, source_language='en', target_language='fr')
+    lucky_time_fr = client.translate(lucky_time, source_language='en', target_language='fr')
+    description_fr = client.translate(description, source_language='en', target_language='fr')
+    sign_fr = client.translate(sign, source_language='en', target_language='fr')
 
     return [sign, sign_fr['translatedText'],
             mood, mood_fr['translatedText'],

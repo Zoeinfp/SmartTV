@@ -1,5 +1,80 @@
-<h3>Horoscope</h3>
-<p title="((horoscope.1|capitalize)) : ((horoscope.3))"> ((horoscope.0|capitalize)) : ((horoscope.2))
-    <small title="( heure de chance : ((horoscope.5)))">( lucky time : ((horoscope.4)))</small></p>
+(% if horoscope.0|capitalize == 'Aries' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/aries.PNG')))">
+((horoscope.1|capitalize))</h3>
+
+(% elif horoscope.0|capitalize == 'Aquarius' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/aquarius.PNG')))">
+Verseau</h3>
+
+(% elif horoscope.0|capitalize == 'Cancer' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/cancer.PNG')))">
+Cancer</h3>
+
+(% elif horoscope.0|capitalize == 'Capricorn' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/capricorn.PNG')))">
+Capricorne</h3>
+
+(% elif horoscope.0|capitalize == 'Gemini' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/gemini.PNG')))">
+Gémeaux</h3>
+
+(% elif horoscope.0|capitalize == 'Leo' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/leo.PNG')))">
+Lion</h3>
+
+(% elif horoscope.0|capitalize == 'Libra' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/libra.PNG')))">
+Balance</h3>
+
+(% elif horoscope.0|capitalize == 'Pisces' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/pisces.PNG')))">
+Poissons</h3>
+
+(% elif horoscope.0|capitalize == 'Sagittarius' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/sagittarius.PNG')))">
+Sagittaire</h3>
+
+(% elif horoscope.0|capitalize == 'Scorpio' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/scorpio.PNG')))">
+Scorpion</h3>
+
+(% elif horoscope.0|capitalize == 'Taurus' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img style="height:20px;" class="img-responsive" src="((url_for('static', filename='img/taurus.PNG')))">
+Taureau</h3>
+
+(% elif horoscope.0|capitalize == 'Virgo' %)
+
+<h3 title="((horoscope.0|capitalize))">
+<img class="img-responsive" src="((url_for('static', filename='img/virgo.PNG')))">
+Vierge</h3>
+
+(% endif %)
+
+<p>
+    <small title="( heure de chance : ((horoscope.5)))">( lucky time : ((horoscope.4)))</small>
+</p>
+<p title="((horoscope.3))">((horoscope.2))</p>
 <p title="((horoscope.7))">((horoscope.6))</p>
 

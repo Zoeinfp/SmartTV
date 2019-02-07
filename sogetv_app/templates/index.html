@@ -25,16 +25,15 @@
               (% include 'message.html' %)
             (% endfor %)
 
-            (% if horoscope %)
-              (% include 'horoscope.html' %)
-            (% endif %)
-
             (% include 'dailyEvent.html' %)
 
             (% if quote %)
               (% include 'quote.html' %)
             (% endif %)
 
+            (% if horoscope %)
+              (% include 'horoscope.html' %)
+            (% endif %)
             <!--(% for weather in weather_data %)-->
                 <!--(% include 'weather.html' %)-->
             <!--(% endfor %)-->
