@@ -8,7 +8,7 @@ from werkzeug.utils import redirect
 import sogetv_app.models
 import sogetv_app.helpers
 
-PASSWORD = ";4?DcUu$JKf?E7$y"
+PASSWORD = "ytreza"
 
 
 class VueFlask(Flask):
